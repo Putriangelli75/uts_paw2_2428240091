@@ -29,7 +29,7 @@ exports.getAll = async (req, res, next) => {
     filter['alamat.kota'] = String(req.query.kota);
   }
   if (req.query.kebunId) {
-    const Kebun = await Kebun.findOne({ _id: req.query.kebunId });
+    const kebun = await Kebun.findOne({ _id: req.query.kebunId });
     filter.cabangId = kebun ? kebun._id : { $in: [] };
   }
 
@@ -54,7 +54,7 @@ exports.getAll = async (req, res, next) => {
     select = fields.join(' ');
   }
 
-    const query = Dataplans.find(filter)
+    const query = Bibit.find(filter)
     .select(select)
     .sort({ [sortField]: arah, _id: 1 })
     .skip((page - 1) * limit)
@@ -63,10 +63,10 @@ exports.getAll = async (req, res, next) => {
   // populate() otomatis menambahkan cabangId ke hasil, jadi hanya dipanggil
   // bila cabangId memang diminta (atau bila tidak ada pemilihan field)
   if (!select || select.split(' ').includes('cabangId')) {
-    query.populate('cabangId', 'cabang');
+    query.populate('kebunId', 'Kebun');
   }
 
-  const [data, total] = await Promise.all([query, Dataplans.countDocuments(filter)]);
+  const [data, total] = await Promise.all([query, Bibit.countDocuments(filter)]);
 
   res.json({ data, page, limit, total, totalPages: Math.ceil(total / limit) });
 };
