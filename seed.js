@@ -4,57 +4,40 @@ const Kebun = require('./models/kebunModel');
 const Bibit = require('./models/bibitModel');
 
 const NAMA_Tanaman = [
-  { nama: 'Anggrek', kuota: 10 },
-  { nama: 'Mawar', kuota: 15 },
-  { nama: 'Lili', kuota: 20 },
-  { nama: '', kuota: 25 },
-  { nama: 'Internet Bulanan 30GB', kuota: 30 },
-  { nama: 'Internet Bulanan 40GB', kuota: 40 },
-  { nama: 'Internet Bulanan 50GB', kuota: 50 },
-  { nama: 'Internet Bulanan 75GB', kuota: 75 },
-  { nama: 'Internet Bulanan 100GB', kuota: 100 },
-  { nama: 'Internet Bulanan 120GB', kuota: 120 },
-  { nama: 'Internet Bulanan 150GB', kuota: 150 },
-  { nama: 'Internet Bulanan 200GB', kuota: 200 },
-  { nama: 'Internet Bulanan 250GB', kuota: 250 },
-  { nama: 'Internet Bulanan 300GB', kuota: 300 },
-  { nama: 'Internet Bulanan 500GB', kuota: 500 }
+  { nama: 'Anggrek'},
+  { nama: 'Mawar' },
+  { nama: 'Lili'},
+  { nama: 'Melati', },
+  { nama: '', kuota: 30 },
+
 ];
 
-const KOTA = [
-  'Palembang',
-  'Indralaya',
-  'Prabumulih',
-  'Lubuklinggau',
-  'Muara Enim',
+const jenis= [
+  'sayur',
+  'buah',
+  'hias',
 ];
 
-const OPERATOR = [
-  'Telkomsel',
-  'Indosat',
-  'XL',
-  'Three',
-  'Smartfren'
-];
 
 async function main() {
   await mongoose.connect(process.env.DB_URI);
-  await Dataplans.deleteMany({});
-  await Cabang.deleteMany({});
+  await Bibit.deleteMany({});
+  await Kebun.deleteMany({});
 
   // Membuat 5 data cabang
-  const cabang = await Cabang.insertMany([
-    { cabang: '1'},
-    { cabang: '2'},
+  const kebun = await Kebun.insertMany([
+    { kebun: '1'},
+    { kebun: '2'},
     { cabang: '3'},
     { cabang: '4'},
     { cabang: '5'}
   ]);
 
   // Membuat 15 data paket internet
-   const dataplans = NAMA_PAKET.map((paket, i) => ({
-    namaPaket: paket.nama,
-    operator: OPERATOR[i % OPERATOR.length],
+   const bibit = NAMA_Tanaman.map((paket, i) => ({
+    kodeBibit: bibit[i]
+    namaTanaman: paket.nama,
+    jenis: Kebun[i % kebun.length],
     kuotaGb: paket.kuota,
     masaAktifHari: 30,
     harga: (i + 1) * 10000,
@@ -62,13 +45,13 @@ async function main() {
       kodePos: String(3111 + i),
       kota: KOTA[i % KOTA.length]
     },
-    cabangId: cabang[i % cabang.length]._id
+    kebunId: Kebun[i % cabang.length]._id
   }));
 
-  await Dataplans.insertMany(dataplans);
+  await Bibit.insertMany(bibit);
 
   console.log(
-    `Seed selesai: ${cabang.length} cabang, ${dataplans.length} dataplans`
+    `Seed selesai: ${bibit.length} cabang, ${bibit.length} bibit`
   );
 
   await mongoose.disconnect();
