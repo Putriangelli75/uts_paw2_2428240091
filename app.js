@@ -7,8 +7,8 @@ const mongoose = require('mongoose');   // tambahkan di antara require lainnya
 const logger = require('./middlewares/logger');
 const { notFoundHandler, errorHandler } = require('./middlewares/errorHandler');
 
-const dataplansRoutes = require('./routes/dataplansRoutes');
-const cabangRoutes = require('./routes/cabangRoutes');
+const bibitRoutes = require('./routes/bibitRoutes');
+const kebunRoutes = require('./routes/kebunRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 // ---------- Route per modul ----------
 app.use('/bibit', bibitRoutes);
-app.use('/cabangs', cabangRoutes);
+app.use('/kebun', kebunRoutes);
 
 // ---------- Handler 404 dan error handler (paling bawah) ----------
 app.use(notFoundHandler);

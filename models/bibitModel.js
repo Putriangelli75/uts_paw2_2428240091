@@ -6,12 +6,11 @@ const alamatSchema = new mongoose.Schema({
 }, { _id: false });
 
 const bibitSchema = new mongoose.Schema({
-  kodeBibit: { type: String, required: [true, 'nama paket wajib diisi'], trim: true },
-  namaTanaman: { type: String, required: [true, 'operator wajib diisi'], trim: true },
-  stok: { type: Number, required: [true, 'kuota GB wajib diisi'], min: 0 },
-  jenis: { type: String, required: [true, 'masa aktif hari wajib diisi'], min: 0 },
-  perawatan: { type: String, required: [true, 'harga wajib diisi'], unique: true, min: 0 },
-  alamat: alamatSchema,
+  kodeBibit: { type: String, required: [true, 'kode bibit wajib diisi'], trim: true },
+  namaTanaman: { type: String, required: [true, 'nama tanaman wajib diisi'], trim: true },
+  stok: { type: Number, required: [true, 'stok wajib diisi'], min: 0 },
+  jenis: { type: String, required: [true, 'jenis wajib diisi'], min: 0 },
+  perawatan: alamatSchema,
   kebunId: { type: mongoose.Schema.Types.ObjectId, ref: 'Cabang' },
   createdAt: { type: Date, default: Date.now },
 });
