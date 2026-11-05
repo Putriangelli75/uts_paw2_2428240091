@@ -1,8 +1,8 @@
-const Operator = require('../models/kebunModel');
+const Kebun = require('../models/kebunModel');
 
 exports.create = async (req, res) => {
   try {
-    const operator = await Operator.create(req.body);
+    const kebun = await Kebun.create(req.body);
     res.status(201).json(operator);
   } catch (err) {
     res.status(400).json({ message: err.message });

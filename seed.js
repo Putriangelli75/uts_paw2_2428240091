@@ -1,13 +1,13 @@
 require('dotenv').config({ quiet: true });
 const mongoose = require('mongoose');
-const Cabang = require('./models/cabangModel');
-const Dataplans = require('./models/dataplansModel');
+const Kebun = require('./models/kebunModel');
+const Bibit = require('./models/bibitModel');
 
-const NAMA_PAKET = [
-  { nama: 'Internet Bulanan 10GB', kuota: 10 },
-  { nama: 'Internet Bulanan 15GB', kuota: 15 },
-  { nama: 'Internet Bulanan 20GB', kuota: 20 },
-  { nama: 'Internet Bulanan 25GB', kuota: 25 },
+const NAMA_Tanaman = [
+  { nama: 'Anggrek', kuota: 10 },
+  { nama: 'Mawar', kuota: 15 },
+  { nama: 'Lili', kuota: 20 },
+  { nama: '', kuota: 25 },
   { nama: 'Internet Bulanan 30GB', kuota: 30 },
   { nama: 'Internet Bulanan 40GB', kuota: 40 },
   { nama: 'Internet Bulanan 50GB', kuota: 50 },

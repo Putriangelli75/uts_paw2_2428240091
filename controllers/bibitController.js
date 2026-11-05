@@ -4,8 +4,8 @@ const Kebun = require('../models/kebunModel');
 
 const LIMIT_DEFAULT = 10;
 const LIMIT_MAKS = 50;
-const FIELD_SORT = ['kodeBibit', 'harga', 'createdAt'];
-const FIELD_BOLEH_DIPILIH = ['namaPaket', 'operator', 'kuotaGb', 'masaAktifHari', 'harga', 'alamat', 'cabangId','createdAt'];
+const FIELD_SORT = ['kodeBibit', 'namaTanaman', 'stok', 'jenis', 'createdAt'];
+const FIELD_BOLEH_DIPILIH = ['kodeBibit', 'namaTanaman', 'stok', 'jenis', 'perawatan', 'kebunId', 'createdAt'];
 
 // Mengubah bilangan dari query string menjadi bilangan bulat yang aman
 function angkaAman(nilai, bawaan, min, maks) {
@@ -16,7 +16,7 @@ function angkaAman(nilai, bawaan, min, maks) {
 
 exports.create = async (req, res) => {
   try {
-    const Bibit = await Bibit.create(req.body);
+    const bibit = await Bibit.create(req.body);
     res.status(201).json(bibit);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -29,7 +29,7 @@ exports.getAll = async (req, res, next) => {
     filter['alamat.kota'] = String(req.query.kota);
   }
   if (req.query.kebunId) {
-    const kebun = await Cabang.findOne({ _id: req.query.kebunId });
+    const Kebun = await Kebun.findOne({ _id: req.query.kebunId });
     filter.cabangId = kebun ? kebun._id : { $in: [] };
   }
 
