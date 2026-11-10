@@ -11,7 +11,7 @@ const bibitSchema = new mongoose.Schema({
   stok: { type: Number, required: [true, 'stok wajib diisi'], min: 0 },
   jenis: { type: String, required: [true, 'jenis wajib diisi'], min: 0 },
   perawatan: alamatSchema,
-  kebunId: { type: mongoose.Schema.Types.ObjectId, ref: 'Cabang' },
+  kebunId: { type: mongoose.Schema.Types.ObjectId, ref: 'Kebun' },
   createdAt: { type: Date, default: Date.now },
 });
 

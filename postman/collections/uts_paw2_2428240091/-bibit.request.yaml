@@ -1,0 +1,16 @@
+$kind: http-request
+name: /bibit
+url: "{{base_url}}/kebun"
+method: POST
+headers:
+  x-api-key: "{{api_key}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"kode\": \"KB02\",\r
+
+    \    \"nama\": \"Kebun Sukamaju\"\r
+
+    }"
+order: 1000

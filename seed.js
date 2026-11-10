@@ -7,8 +7,8 @@ const NAMA_Tanaman = [
   { nama: 'Anggrek'},
   { nama: 'Mawar' },
   { nama: 'Lili'},
-  { nama: 'Melati', },
-  { nama: '', kuota: 30 },
+  { nama: 'Melati'},
+  { nama: 'Tulip'},
 
 ];
 
@@ -24,34 +24,32 @@ async function main() {
   await Bibit.deleteMany({});
   await Kebun.deleteMany({});
 
-  // Membuat 5 data cabang
+  // Membuat 5 data kebun
   const kebun = await Kebun.insertMany([
-    { kebun: '1'},
-    { kebun: '2'},
-    { cabang: '3'},
-    { cabang: '4'},
-    { cabang: '5'}
+    { kode: 'KB01', nama: 'Kebun Talang Kelapa'},
+    { kode: 'KB02', nama: 'Kebun Sukamaju'},
+    { kode: 'KB03', nama: 'Kebun Harapan'},
+    { kode: 'KB04', nama: 'Kebun Makmur'},
+    { kode: 'KB05', nama: 'Kebun Sejahtera'}
   ]);
 
-  // Membuat 15 data paket internet
+  // Membuat 15 data bibit
    const bibit = NAMA_Tanaman.map((paket, i) => ({
-    kodeBibit: bibit[i]
+    kodeBibit: `B${String(i + 1).padStart(2, '0')}`,
     namaTanaman: paket.nama,
-    jenis: Kebun[i % kebun.length],
-    kuotaGb: paket.kuota,
-    masaAktifHari: 30,
-    harga: (i + 1) * 10000,
-    alamat: {
-      kodePos: String(3111 + i),
-      kota: KOTA[i % KOTA.length]
+    stok: 100,
+    jenis: jenis[i % jenis.length],
+    perawatan: {
+      media: String(3111 + i),
+      penyiraman: KOTA[i % KOTA.length]
     },
-    kebunId: Kebun[i % cabang.length]._id
+    kebunId: Kebun[i % kebun.length]._id
   }));
 
   await Bibit.insertMany(bibit);
 
   console.log(
-    `Seed selesai: ${bibit.length} cabang, ${bibit.length} bibit`
+    `Seed selesai: ${kebun.length} kebun, ${bibit.length} bibit`
   );
 
   await mongoose.disconnect();

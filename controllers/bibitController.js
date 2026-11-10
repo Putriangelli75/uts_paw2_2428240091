@@ -19,7 +19,7 @@ exports.create = async (req, res) => {
     const bibit = await Bibit.create(req.body);
     res.status(201).json(bibit);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(409).json({ message: err.message });
   }
 };
 
