@@ -68,7 +68,7 @@ async function main() {
   const bibit = NAMA_TANAMAN.map((tanaman, i) => ({
     kodeBibit: `BBT-${String(i + 1).padStart(2, '0')}`,
     namaTanaman: tanaman.nama,
-    stok: 100,
+    stok: (i % 5) + 1,
     jenis: tanaman.jenis,
     perawatan: {
       media: MEDIA[i % MEDIA.length],

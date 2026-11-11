@@ -1,7 +1,10 @@
 $kind: http-request
 name: /bibit
-url: "{{base_url}}/bibit"
-method: POST
+url: "{{base_url}}/bibit?jenis=sayur&sort=stok"
+method: GET
 headers:
   x-api-key: "{{api_key}}"
+queryParams:
+  jenis: sayur
+  sort: stok
 order: 1080
