@@ -17,11 +17,11 @@ Digunakan untuk menghubungkan data dari koleksi yang berbeda menggunakan ObjectI
 | 3 | `GET /kebun` | 200 | 200 | Ya |
 | 4 | `POST /bibit` | 201 | 201 | Ya |
 | 5 | `POST /bibit` dengan nilai unik yang sama | 409 | 409 | Ya |
-| 6 | `POST /bibit` tanpa teks | 400 + detail | 400 | Ya |
+| 6 | `POST /bibit` tanpa teks | 400 + detail | 400 + detail | Ya |
 | 7 | `POST /bibit` dengan angka di bawah minimum | 400 | 400 | Ya |
 | 8 | `GET /bibit` | 200, array | 200 | Ya |
 | 9 | `GET /bibit?jenis=sayur` | 200, hanya data yang cocok | 200 | Ya |
-| 10 | `GET /bibit?jenis=tidak_ada` | 200, array kosong (`[]`) | 200 | Ya |
+| 10 | `GET /bibit?jenis=tidak_ada` | 200, array kosong (`[]`) | 200, [] | Ya |
 | 11 | `GET /bibit?sort=stok` | 200, urut menaik | 200 | Ya |
 | 12 | `GET /bibit/:id` | 200, referensi ter-*populate* | 200 | Ya |
 | 13 | `GET /bibit/:id` (ID tidak ada) | 404 | 404 | Ya |
