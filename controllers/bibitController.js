@@ -4,7 +4,7 @@ const Kebun = require('../models/kebunModel');
 
 const LIMIT_DEFAULT = 10;
 const LIMIT_MAKS = 50;
-const FIELD_SORT = ['kodeBibit', 'namaTanaman', 'stok', 'jenis', 'createdAt'];
+const FIELD_SORT = ['kodeBibit', 'namaTanaman', 'stok', 'jenis', 'angka', 'createdAt'];
 const FIELD_BOLEH_DIPILIH = ['kodeBibit', 'namaTanaman', 'stok', 'jenis', 'perawatan', 'kebunId', 'createdAt'];
 
 // Mengubah bilangan dari query string menjadi bilangan bulat yang aman
@@ -14,23 +14,47 @@ function angkaAman(nilai, bawaan, min, maks) {
   return Math.min(Math.max(n, min), maks);
 }
 
+
 exports.create = async (req, res) => {
   try {
     const bibit = await Bibit.create(req.body);
-    res.status(201).json(bibit);
+
+    res.status(201).json({
+      message: 'Data bibit berhasil ditambahkan',
+    });
+
   } catch (err) {
-    res.status(409).json({ message: err.message });
-  }
-};
+
+    // Jika kodeBibit sudah digunakan
+    if (err.code === 11000) {
+      return res.status(409).json({
+        message: 'Kode bibit duplicate key',
+      });
+    }
+
+    // Jika terdapat field wajib yang belum diisi
+    if (err.name === 'ValidationError') {
+      const detail = Object.values(err.errors).map((e) => ({
+        field: e.path,
+        message: e.message
+      }));
+
+      return res.status(400).json({
+        message: 'Validasi gagal',
+        detail
+      });
+    }
+  };
+}
 
 exports.getAll = async (req, res, next) => {
-   const filter = {};
-  if (req.query.kota) {
-    filter['alamat.kota'] = String(req.query.kota);
+  const filter = {};
+  if (req.query.jenis) {
+    filter['jenis'] = String(req.query.jenis);
   }
   if (req.query.kebunId) {
     const kebun = await Kebun.findOne({ _id: req.query.kebunId });
-    filter.cabangId = kebun ? kebun._id : { $in: [] };
+    filter.kebunId = kebun ? kebun._id : { $in: [] };
   }
 
   const page = angkaAman(req.query.page, 1, 1, Number.MAX_SAFE_INTEGER);
@@ -54,15 +78,15 @@ exports.getAll = async (req, res, next) => {
     select = fields.join(' ');
   }
 
-    const query = Bibit.find(filter)
+  const query = Bibit.find(filter)
     .select(select)
     .sort({ [sortField]: arah, _id: 1 })
     .skip((page - 1) * limit)
     .limit(limit);
 
-  // populate() otomatis menambahkan cabangId ke hasil, jadi hanya dipanggil
-  // bila cabangId memang diminta (atau bila tidak ada pemilihan field)
-  if (!select || select.split(' ').includes('cabangId')) {
+  // populate() otomatis menambahkan kebunId ke hasil, jadi hanya dipanggil
+  // bila kebunId memang diminta (atau bila tidak ada pemilihan field)
+  if (!select || select.split(' ').includes('kebunId')) {
     query.populate('kebunId', 'Kebun');
   }
 
@@ -72,13 +96,13 @@ exports.getAll = async (req, res, next) => {
 };
 
 exports.getById = async (req, res) => {
-  const data = await Dataplans.findById(req.params.id).populate('cabangId');
+  const data = await Bibit.findById(req.params.id).populate('kebunId');
   if (!data) throw errorHttp(404, 'Data tidak ditemukan');
   res.json(data);
 };
 
 exports.update = async (req, res) => {
-  const data = await Dataplans.findByIdAndUpdate(
+  const data = await Bibit.findByIdAndUpdate(
     req.params.id,
     req.body,
     { returnDocument: 'after', runValidators: true }
@@ -88,7 +112,7 @@ exports.update = async (req, res) => {
 };
 
 exports.remove = async (req, res) => {
-  const data = await Dataplans.findByIdAndDelete(req.params.id);
+  const data = await Bibit.findByIdAndDelete(req.params.id);
   if (!data) throw errorHttp(404, 'Data tidak ditemukan');
   res.status(204).send();
 };

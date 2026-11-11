@@ -1,0 +1,7 @@
+$kind: http-request
+name: /bibit
+url: "{{base_url}}/bibit"
+method: POST
+headers:
+  x-api-key: "{{api_key}}"
+order: 1080

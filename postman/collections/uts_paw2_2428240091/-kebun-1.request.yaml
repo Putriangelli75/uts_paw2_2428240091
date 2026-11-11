@@ -1,0 +1,5 @@
+$kind: http-request
+name: /kebun
+url: "{{base_url}}/kebun"
+method: GET
+order: 1077

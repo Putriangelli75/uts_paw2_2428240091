@@ -1,0 +1,5 @@
+$kind: http-request
+name: /bibit/Id
+url: "{{base_url}}/bibit/abc"
+method: GET
+order: 2000
