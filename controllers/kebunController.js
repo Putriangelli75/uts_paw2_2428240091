@@ -1,14 +1,11 @@
 const Kebun = require('../models/kebunModel');
 
 exports.create = async (req, res) => {
-  try {
-    const kebun = await Kebun.create(req.body);
-    res.status(201).json(kebun);
-  } catch (err) {
-    res.status(409).json({ message: err.message });
-  }
+  const { kode, nama } = req.body;
+  const kebun = await Kebun.create({ kode, nama });
+  res.status(201).json(kebun);
 };
 
 exports.getAll = async (req, res) => {
-  res.json(await Kebun.find());
+  res.json((await Kebun.find()).toSorted({kode: 1}));
 };
